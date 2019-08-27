@@ -1,25 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState, useCallback} from 'react';
+import {useEventListener} from "./UseEventListner";
 
 function App() {
+  const [coords, setCoords] = useState({ x: 0, y: 0 });
+
+  const handler = useCallback(
+    ({ clientX, clientY }) => {
+      setCoords({ x: clientX, y: clientY });
+    },
+    [setCoords]
+  );
+
+  useEventListener('mousemove', handler);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <h1>
+      Position:  ({coords.x}, {coords.y})
+    </h1>
   );
 }
 
